@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class Second extends StatefulWidget {
-  const Second({super.key});
+class Firstpage extends StatefulWidget {
+  const Firstpage({super.key});
   @override
-  State<Second> createState() => _Second();
+  State<Firstpage> createState() => _Firstpage();
 }
 
-class _Second extends State<Second> {
+class _Firstpage extends State<Firstpage> {
   void _calculate_m() {}
   @override
   Widget build(BuildContext context) {
@@ -18,13 +18,15 @@ class _Second extends State<Second> {
           children: <Widget>[
             Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Image.asset("image/2ndimage.png")]),
+                children: [Image.asset("image/p.png")]),
             Text("เลือกเนื้อหาที่ต้องการเรียน"),
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   FloatingActionButton.extended(
-                    onPressed: _calculate_m,
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/second');
+                    },
                     label: const Text("พยัชนะ"),
                   ),
                   FloatingActionButton.extended(
@@ -32,6 +34,14 @@ class _Second extends State<Second> {
                     label: const Text("สระ"),
                   )
                 ]),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  FloatingActionButton.extended(
+                    onPressed: _calculate_m,
+                    label: const Text("ประโยค"),
+                  )
+                ])
           ],
         ),
       ),
