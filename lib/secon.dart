@@ -36,7 +36,9 @@ class _SecondState extends State<Second> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 FloatingActionButton.extended(
-                  onPressed: _calculate_m,
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/quiz');
+                  },
                   label: const Text("Pic Quiz"),
                 ),
                 FloatingActionButton.extended(

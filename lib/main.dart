@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'firstpage.dart';
 import 'secon.dart';
+import 'quiz.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/second': (context) => const Second(),
         '/first': (context) => const Firstpage(),
+        '/quiz': (context) => QuizPage(),
       },
     );
   }
