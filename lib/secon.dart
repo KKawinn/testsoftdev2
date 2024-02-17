@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'firstpage.dart' as ba;
 
 class Second extends StatefulWidget {
   const Second({Key? key}) : super(key: key);
@@ -42,7 +43,9 @@ class _SecondState extends State<Second> {
                   label: const Text("Pic Quiz"),
                 ),
                 FloatingActionButton.extended(
-                  onPressed: _calculate_m,
+                  onPressed: (){
+                    Navigator.pushNamed(context, '/voic');
+                  },
                   label: const Text("Listen Quiz"),
                 )
               ],

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class QuizPage extends StatefulWidget {
+class voic extends StatefulWidget {
   @override
-  _QuizPageState createState() => _QuizPageState();
+  State<voic> createState() => _QuizPageState();
 }
 
-class _QuizPageState extends State<QuizPage> {
+class _QuizPageState extends State<voic> {
   String? selectedAnswer;
   final String correctAnswer = 'Choice 1';
   String? resultText;
@@ -27,7 +27,7 @@ class _QuizPageState extends State<QuizPage> {
         children: [
           Expanded(
             child: Center(
-              child: Image.asset('image/bi.png'),
+              child: Image.asset('image/voic.png'),
             ),
           ),
           Column(

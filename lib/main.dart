@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'firstpage.dart';
 import 'secon.dart';
 import 'quiz.dart';
+import 'voic.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,6 +25,8 @@ class MyApp extends StatelessWidget {
         '/second': (context) => const Second(),
         '/first': (context) => const Firstpage(),
         '/quiz': (context) => QuizPage(),
+        '/voic': (context) => voic(),
+
       },
     );
   }

@@ -7,6 +7,8 @@ class Firstpage extends StatefulWidget {
 }
 
 class _Firstpage extends State<Firstpage> {
+  int num1 = 0 ;
+  int num2 = 0 ;
   void _calculate_m() {}
   @override
   Widget build(BuildContext context) {
@@ -26,11 +28,15 @@ class _Firstpage extends State<Firstpage> {
                   FloatingActionButton.extended(
                     onPressed: () {
                       Navigator.pushNamed(context, '/second');
+                      num1 = 1;
                     },
                     label: const Text("พยัชนะ"),
                   ),
                   FloatingActionButton.extended(
-                    onPressed: _calculate_m,
+                    onPressed: (){
+                      Navigator.pushNamed(context, '/second');
+                      num2 = 1 ;
+                    },
                     label: const Text("สระ"),
                   )
                 ]),
