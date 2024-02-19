@@ -10,6 +10,12 @@ class _QuizPageState extends State<QuizPage> {
   final String correctAnswer = 'Choice 1';
   String? resultText;
   Color con = Color.fromARGB(255, 69,39,160) ;
+  String buto = "Submit";
+  Color choice1 = Color.fromARGB(255, 255, 255, 255) ;
+  Color choice2 = Color.fromARGB(255, 255, 255, 255) ;
+  Color choice3 = Color.fromARGB(255, 255, 255, 255) ;
+  Color choice4 = Color.fromARGB(255, 255, 255, 255) ;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,16 +48,26 @@ class _QuizPageState extends State<QuizPage> {
                     onSelect: () {
                       setState(() {
                         selectedAnswer = 'Choice 1';
+                        choice1 = Color.fromARGB( 255, 186,218,255) ;
+                        choice2 = Color.fromARGB(255, 255, 255, 255) ;
+                        choice3 = Color.fromARGB(255, 255, 255, 255) ;
+                        choice4 = Color.fromARGB(255, 255, 255, 255) ;
                       });
                     },
+                    colo:choice1 ,
                   ),
                   ChoiceButton(
                     text: 'Choice 2',
                     onSelect: () {
                       setState(() {
                         selectedAnswer = 'Choice 2';
+                        choice1 = Color.fromARGB( 255, 255, 255, 255) ;
+                        choice2 = Color.fromARGB(255, 186,218,255) ;
+                        choice3 = Color.fromARGB(255, 255, 255, 255) ;
+                        choice4 = Color.fromARGB(255, 255, 255, 255) ;
                       });
                     },
+                    colo: choice2,
                   ),
                 ],
               ),
@@ -63,16 +79,26 @@ class _QuizPageState extends State<QuizPage> {
                     onSelect: () {
                       setState(() {
                         selectedAnswer = 'Choice 3';
+                        choice1 = Color.fromARGB( 255, 255, 255, 255) ;
+                        choice2 = Color.fromARGB(255, 255, 255, 255) ;
+                        choice3 = Color.fromARGB(255, 186,218,255) ;
+                        choice4 = Color.fromARGB(255, 255, 255, 255) ;
                       });
                     },
+                     colo: choice3,
                   ),
                   ChoiceButton(
                     text: 'Choice 4',
                     onSelect: () {
                       setState(() {
                         selectedAnswer = 'Choice 4';
+                        choice1 = Color.fromARGB( 255, 255, 255, 255) ;
+                        choice2 = Color.fromARGB(255, 255, 255, 255) ;
+                        choice3 = Color.fromARGB(255, 255, 255, 255) ;
+                        choice4 = Color.fromARGB(255, 186,218,255) ;
                       });
                     },
+                    colo: choice4,
                   ),
                 ],
               ),
@@ -97,6 +123,7 @@ class _QuizPageState extends State<QuizPage> {
                 resultText =
                     selectedAnswer == correctAnswer ? 'ถูกต้อง' : 'ผิด';
                     con = selectedAnswer== correctAnswer ?  Color.fromARGB(255, 0, 255, 0) : Color.fromARGB(255, 255, 0, 0);
+                    buto = "continue";
               });
             },
             style: ElevatedButton.styleFrom(backgroundColor: con),
@@ -104,7 +131,7 @@ class _QuizPageState extends State<QuizPage> {
               padding: const EdgeInsets.symmetric(
                   vertical: 16.0, horizontal: 32.0),
               child: Text(
-                'Submit',
+                buto,
                 style: TextStyle(fontSize: 18.0, color: Color.fromARGB(255, 255, 255, 255)),
               ),
             ),
@@ -124,8 +151,9 @@ class _QuizPageState extends State<QuizPage> {
 class ChoiceButton extends StatelessWidget {
   final String text;
   final VoidCallback onSelect; // เพิ่มพารามิเตอร์ onSelect แบบ VoidCallback
+  final Color colo ;
 
-  const ChoiceButton({required this.text, required this.onSelect});
+  const ChoiceButton({required this.text, required this.onSelect,required this.colo});
 
   @override
   Widget build(BuildContext context) {
@@ -134,6 +162,7 @@ class ChoiceButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onSelect, // เรียกใช้งานฟังก์ชัน onSelect เมื่อปุ่มถูกกด
         child: Text(text),
+        style: ElevatedButton.styleFrom(backgroundColor: colo),
       ),
       
     );
