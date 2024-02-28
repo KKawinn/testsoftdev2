@@ -9,9 +9,9 @@ class _QuizPageState extends State<QuizPage> {
   int _questionIndex = 0;
   int _totalScore = 0;
   String? selectedAnswer;
-  int choice = 0 ;
-
-final List<Map<String, Object>> _questions = [
+  int choice = 0;
+  Color con = Color.fromARGB(255, 69, 39, 160);
+  final List<Map<String, Object>> _questions = [
     {
       'pic': 'image/bi.png',
       'answers': [
@@ -33,12 +33,12 @@ final List<Map<String, Object>> _questions = [
     // Add more questions here...
   ];
 
-
-void _answerQuestion(int score) {
+  void _answerQuestion(int score) {
     setState(() {
       _totalScore += score;
       _questionIndex++;
-      selectedAnswer = null; // Reset selected answer
+      selectedAnswer = null;
+      con = Color.fromARGB(255, 69, 39, 160);
     });
   }
 
@@ -47,6 +47,7 @@ void _answerQuestion(int score) {
       _questionIndex = 0;
       _totalScore = 0;
       selectedAnswer = null; // Reset selected answer
+      con = Color.fromARGB(255, 69, 39, 160);
     });
   }
 
@@ -54,8 +55,11 @@ void _answerQuestion(int score) {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 69,39,160),
-        title: Text('Quiz',style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),),
+        backgroundColor: Color.fromARGB(255, 69, 39, 160),
+        title: Text(
+          'Quiz',
+          style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+        ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -63,7 +67,7 @@ void _answerQuestion(int score) {
           },
         ),
       ),
-      body:  _questionIndex < _questions.length
+      body: _questionIndex < _questions.length
           ? Quiz(
               questionIndex: _questionIndex,
               questions: _questions,
@@ -75,9 +79,15 @@ void _answerQuestion(int score) {
                   selectedAnswer = answer;
                 });
               },
-              choiceselect: (int cha){
+              choiceselect: (int cha) {
                 setState(() {
                   choice = cha;
+                });
+              },
+              con: con,
+              colorc: (Color pop) {
+                setState(() {
+                  con = pop;
                 });
               },
             )
@@ -87,176 +97,167 @@ void _answerQuestion(int score) {
 }
 
 class Quiz extends StatelessWidget {
-  
   final String correctAnswer = 'Choice 1';
   String? resultText;
-  Color con = Color.fromARGB(255, 69,39,160) ;
+  final Color? con;
   String buto = "Submit";
-  
+
   final int questionIndex;
   final List questions;
   final Function(int) answerQuestion;
   final Function(int) choiceselect;
-  final int? choice  ;
+  final int? choice;
   final String? selectedAnswer;
   final void Function(String) onAnswerSelected;
-  
-  Quiz({
-    required this.questionIndex,
-    required this.questions,
-    required this.answerQuestion,
-    required this.selectedAnswer,
-    required this.onAnswerSelected,
-    required this.choiceselect,
-    required this.choice
-  });
+  final Function(Color) colorc;
+
+  Quiz(
+      {required this.questionIndex,
+      required this.questions,
+      required this.answerQuestion,
+      required this.selectedAnswer,
+      required this.onAnswerSelected,
+      required this.choiceselect,
+      required this.choice,
+      required this.con,
+      required this.colorc});
 
   @override
   Widget build(BuildContext context) {
     return Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: Image.asset(questions[questionIndex]['pic'] as String),
-            ),
+      children: [
+        Expanded(
+          child: Center(
+            child: Image.asset(questions[questionIndex]['pic'] as String),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("รูปภาพที่เห็นนี้คืออะไร"),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ...(questions[questionIndex]['answers'] as List<Map<String, Object>>).sublist(0,1).map((answer) {
-                  return ElevatedButton(
-                    onPressed: () { 
-                      choiceselect(0);
-                      onAnswerSelected(answer['text'] as String);},
-                    child: Text(answer['text'] as String),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
-                        if (selectedAnswer == answer['text']) {
-                          return Colors.green; // สีเมื่อปุ่มถูกเลือก
-                        } else {
-                          return Colors.blue; // สีปกติ
-                        }
-                      }),
-                    ),
-                  );
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("รูปภาพที่เห็นนี้คืออะไร"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ...(questions[questionIndex]['answers']
+                        as List<Map<String, Object>>)
+                    .sublist(0, 1)
+                    .map((answer) {
+                  return ChoiceButton(
+                      onSelect: () {
+                        choiceselect(0);
+                        onAnswerSelected(answer['text'] as String);
+                      },
+                      text: (answer['text'] as String),
+                      colo: selectedAnswer == answer['text']
+                          ? const Color.fromARGB(255, 186, 218, 255)
+                          : const Color.fromARGB(255, 255, 255, 255));
                 }).toList(),
-                  ...(questions[questionIndex]['answers'] as List<Map<String, Object>>).sublist(1,2).map((answer) {
-                  return ElevatedButton(
-                    onPressed: () { 
-                      choiceselect(1);
-                      onAnswerSelected(answer['text'] as String);},
-                    child: Text(answer['text'] as String),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
-                        if (selectedAnswer == answer['text']) {
-                          return Colors.green; // สีเมื่อปุ่มถูกเลือก
-                        } else {
-                          return Colors.blue; // สีปกติ
-                        }
-                      }),
-                    ),
-                  );
+                ...(questions[questionIndex]['answers']
+                        as List<Map<String, Object>>)
+                    .sublist(1, 2)
+                    .map((answer) {
+                  return ChoiceButton(
+                      onSelect: () {
+                        choiceselect(1);
+                        onAnswerSelected(answer['text'] as String);
+                      },
+                      text: (answer['text'] as String),
+                      colo: selectedAnswer == answer['text']
+                          ? const Color.fromARGB(255, 186, 218, 255)
+                          : const Color.fromARGB(255, 255, 255, 255));
                 }).toList(),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ...(questions[questionIndex]['answers'] as List<Map<String, Object>>).sublist(2,3).map((answer) {
-                  return ElevatedButton(
-                    onPressed: () { 
-                      choiceselect(2); 
-                      onAnswerSelected(answer['text'] as String);},
-                    child: Text(answer['text'] as String),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
-                        if (selectedAnswer == answer['text']) {
-                          return Colors.green; // สีเมื่อปุ่มถูกเลือก
-                        } else {
-                          return Colors.blue; // สีปกติ
-                        }
-                      }),
-                    ),
-                  );
-                }).toList(),
-                  ...(questions[questionIndex]['answers'] as List<Map<String, Object>>).sublist(3,4).map((answer) {
-                  return ElevatedButton(
-                    onPressed: () { 
-                      choiceselect(3);
-                      onAnswerSelected(answer['text'] as String);},
-                    child: Text(answer['text'] as String),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
-                        if (selectedAnswer == answer['text']) {
-                          return Colors.green; // สีเมื่อปุ่มถูกเลือก
-                        } else {
-                          return Colors.blue; // สีปกติ
-                        }
-                      }),
-                    ),
-                  );
-                }).toList(),
-                ],
-              ),
-            ],
-          ),
-          Expanded(
-  child: Align(
-    alignment: Alignment.bottomCenter,
-    child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min, // ใช้ MainAxisSize.min เพื่อปรับให้ Column มีขนาดเล็กที่สุดเท่าที่จำเป็น
-        children: [
-          if (resultText != null)
-            Text(
-              resultText!,
-              style: TextStyle(fontSize: 18.0),
+              ],
             ),
-          ElevatedButton(
-            onPressed: () {
-              answerQuestion(questions[questionIndex]['answers'][choice]['score'] as int);
-                resultText =
-                    selectedAnswer == correctAnswer ? 'ถูกต้อง' : 'ผิด';
-                    con = selectedAnswer== correctAnswer ?  Color.fromARGB(255, 0, 255, 0) : Color.fromARGB(255, 255, 0, 0);
-                    buto = "continue";
-            
-            },
-            style: ElevatedButton.styleFrom(backgroundColor: con),
-            
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ...(questions[questionIndex]['answers']
+                        as List<Map<String, Object>>)
+                    .sublist(2, 3)
+                    .map((answer) {
+                  return ChoiceButton(
+                      onSelect: () {
+                        choiceselect(2);
+                        onAnswerSelected(answer['text'] as String);
+                      },
+                      text: (answer['text'] as String),
+                      colo: selectedAnswer == answer['text']
+                          ? const Color.fromARGB(255, 186, 218, 255)
+                          : const Color.fromARGB(255, 255, 255, 255));
+                }).toList(),
+                ...(questions[questionIndex]['answers']
+                        as List<Map<String, Object>>)
+                    .sublist(3, 4)
+                    .map((answer) {
+                  return ChoiceButton(
+                      onSelect: () {
+                        choiceselect(3);
+                        onAnswerSelected(answer['text'] as String);
+                      },
+                      text: (answer['text'] as String),
+                      colo: selectedAnswer == answer['text']
+                          ? const Color.fromARGB(255, 186, 218, 255)
+                          : const Color.fromARGB(255, 255, 255, 255));
+                }).toList(),
+              ],
+            ),
+          ],
+        ),
+        Expanded(
+          child: Align(
+            alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                  vertical: 16.0, horizontal: 32.0),
-              child: Text(
-                buto,
-                style: TextStyle(fontSize: 18.0, color: Color.fromARGB(255, 255, 255, 255)),
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (resultText != null)
+                    Text(
+                      resultText!,
+                      style: TextStyle(fontSize: 18.0),
+                    ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Future.delayed(Duration(seconds: 3), () {
+                        answerQuestion(questions[questionIndex]['answers']
+                            [choice]['score'] as int);
+                      });
+
+                      colorc(1 ==
+                              questions[questionIndex]['answers'][choice]
+                                  ['score'] as int
+                          ? Color.fromARGB(255, 77, 255, 0)
+                          : Color.fromARGB(255, 255, 0, 0));
+                    },
+                    style: ElevatedButton.styleFrom(backgroundColor: con),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 32.0),
+                      child: Text(
+                        buto,
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            color: Color.fromARGB(255, 255, 255, 255)),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-        ],
-      ),
-    ),
-  ),
-),
-
-        ],
-      );
+        ),
+      ],
+    );
   }
 }
-
-
-
 
 class ChoiceButton extends StatelessWidget {
   final String text;
   final VoidCallback onSelect; // เพิ่มพารามิเตอร์ onSelect แบบ VoidCallback
-  final Color colo ;
+  final Color colo;
 
-  const ChoiceButton({required this.text, required this.onSelect,required this.colo});
+  const ChoiceButton(
+      {required this.text, required this.onSelect, required this.colo});
 
   @override
   Widget build(BuildContext context) {
@@ -267,7 +268,6 @@ class ChoiceButton extends StatelessWidget {
         child: Text(text),
         style: ElevatedButton.styleFrom(backgroundColor: colo),
       ),
-      
     );
   }
 }
