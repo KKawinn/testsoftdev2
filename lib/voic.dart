@@ -19,12 +19,7 @@ class _QuizPageState extends State<voic> {
   FlutterTts flutterTts = FlutterTts();
 
 
-Future<void> configureTts() async {
-   flutterTts.setLanguage('en-US');
-   flutterTts.setSpeechRate(2.0);
-   flutterTts.setVolume(1.5);
-  await flutterTts.setSharedInstance(true);
-}
+
 void _speak() async {
   await flutterTts.speak('สบายดีครับ');
 }
