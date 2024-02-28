@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'firstpage.dart' as ba;
 
 class Second extends StatefulWidget {
   const Second({Key? key}) : super(key: key);
