@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class voic extends StatefulWidget {
   @override
@@ -15,6 +16,18 @@ class _QuizPageState extends State<voic> {
   Color choice2 = Color.fromARGB(255, 255, 255, 255) ;
   Color choice3 = Color.fromARGB(255, 255, 255, 255) ;
   Color choice4 = Color.fromARGB(255, 255, 255, 255) ;
+  FlutterTts flutterTts = FlutterTts();
+
+
+Future<void> configureTts() async {
+   flutterTts.setLanguage('en-US');
+   flutterTts.setSpeechRate(2.0);
+   flutterTts.setVolume(1.5);
+  await flutterTts.setSharedInstance(true);
+}
+void _speak() async {
+  await flutterTts.speak('สบายดีครับ');
+}
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +44,13 @@ class _QuizPageState extends State<voic> {
       ),
       body: Column(
         children: [
-          Expanded(
-            child: Center(
-              child: Image.asset('image/voic.png'),
-            ),
+          GestureDetector(
+        onTap: () {
+          setState(() {
+            _speak();
+          });
+          },
+      child: Image.asset('image/voic.png'),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -44,9 +60,10 @@ class _QuizPageState extends State<voic> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ChoiceButton(
-                    text: 'Choice 1',
+                    text: 'สวัดดีครับ',
                     onSelect: () {
                       setState(() {
+                        
                         selectedAnswer = 'Choice 1';
                         choice1 = Color.fromARGB( 255, 186,218,255) ;
                         choice2 = Color.fromARGB(255, 255, 255, 255) ;
@@ -57,7 +74,7 @@ class _QuizPageState extends State<voic> {
                     colo:choice1 ,
                   ),
                   ChoiceButton(
-                    text: 'Choice 2',
+                    text: 'สวัดดีค่ะ',
                     onSelect: () {
                       setState(() {
                         selectedAnswer = 'Choice 2';
@@ -75,7 +92,7 @@ class _QuizPageState extends State<voic> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ChoiceButton(
-                    text: 'Choice 3',
+                    text: 'สวัดดีคะ',
                     onSelect: () {
                       setState(() {
                         selectedAnswer = 'Choice 3';
@@ -88,7 +105,7 @@ class _QuizPageState extends State<voic> {
                      colo: choice3,
                   ),
                   ChoiceButton(
-                    text: 'Choice 4',
+                    text: 'สวัดดีคอฟ',
                     onSelect: () {
                       setState(() {
                         selectedAnswer = 'Choice 4';

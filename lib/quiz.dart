@@ -127,6 +127,7 @@ class _QuizPageState extends State<QuizPage> {
               });
             },
             style: ElevatedButton.styleFrom(backgroundColor: con),
+            
             child: Padding(
               padding: const EdgeInsets.symmetric(
                   vertical: 16.0, horizontal: 32.0),
