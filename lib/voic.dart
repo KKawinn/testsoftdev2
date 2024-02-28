@@ -25,16 +25,9 @@ class _QuizPageState extends State<voic> {
     await flutterTts.setSharedInstance(true);
   }
 
-<<<<<<< HEAD
-
-void _speak() async {
-  await flutterTts.speak('สบายดีครับ');
-}
-=======
   void _speak() async {
     await flutterTts.speak('สบายดีครับ');
   }
->>>>>>> 9dab8a3d260813cd8ef7702d737cc2ec1ca16ac2
 
   @override
   Widget build(BuildContext context) {
