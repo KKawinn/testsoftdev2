@@ -3,9 +3,12 @@ import 'firstpage.dart';
 import 'secon.dart';
 import 'quiz.dart';
 import 'voic.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() {
   runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+   Firebase.initializeApp();
 }
 
 class MyApp extends StatelessWidget {

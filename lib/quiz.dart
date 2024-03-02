@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class QuizPage extends StatefulWidget {
@@ -6,32 +10,16 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  final Future<FirebaseApp> firebase = Firebase.initializeApp();
+  CollectionReference _question = FirebaseFirestore.instance.collection("question");
+  List<Map<String, dynamic>> dataList = [];
+
   int _questionIndex = 0;
   int _totalScore = 0;
   String? selectedAnswer;
   int choice = 0;
   Color con = Color.fromARGB(255, 69, 39, 160);
-  final List<Map<String, Object>> _questions = [
-    {
-      'pic': 'image/bi.png',
-      'answers': [
-        {'text': 'จักยาน', 'score': 1},
-        {'text': 'regdrg', 'score': 0},
-        {'text': 'gdrg', 'score': 0},
-        {'text': 'drgr', 'score': 0},
-      ],
-    },
-    {
-      'pic': 'image/des.png',
-      'answers': [
-        {'text': '4', 'score': 0},
-        {'text': 'คนคิด', 'score': 1},
-        {'text': '8', 'score': 0},
-        {'text': '10', 'score': 0},
-      ],
-    },
-    // Add more questions here...
-  ];
+   List<dynamic> _questions = [];
 
   void _answerQuestion(int score) {
     setState(() {
@@ -39,6 +27,7 @@ class _QuizPageState extends State<QuizPage> {
       _questionIndex++;
       selectedAnswer = null;
       con = Color.fromARGB(255, 69, 39, 160);
+      
     });
   }
 
@@ -51,9 +40,43 @@ class _QuizPageState extends State<QuizPage> {
     });
   }
 
+Future<void> _fetchQuestions() async {
+    
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    
+    CollectionReference questionsRef = firestore.collection('question');
+    
+    try {
+      QuerySnapshot querySnapshot = await questionsRef.get();
+        querySnapshot.docs.forEach((doc) {
+        _questions.add((doc.data() as Map<String, dynamic>));
+      });      
+      setState(() {});
+    } catch (error) {
+      print('Error fetching questions: $error');
+    }
+    for (var question in _questions) {
+        print(question);
+    }
+  }
+
+
   @override
+  void initState() {
+    super.initState();
+    _fetchQuestions();
+   
+  }
   Widget build(BuildContext context) {
-    return Scaffold(
+    return FutureBuilder(future: firebase, builder: (context,snapshot){
+      if(snapshot.hasError){
+        return Scaffold(
+          appBar: AppBar(title: Text("erro"),),
+          body: Center(child: Text("${snapshot.error}"),),
+        );
+      }
+      if(snapshot.connectionState == ConnectionState.done){
+        return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 69, 39, 160),
         title: Text(
@@ -93,9 +116,15 @@ class _QuizPageState extends State<QuizPage> {
             )
           : Result(_totalScore, _questions.length, _restartQuiz),
     );
+      }
+      return Scaffold(
+        body: Center(child: CircularProgressIndicator(),),
+      );
+    });
   }
 }
 
+// ignore: must_be_immutable
 class Quiz extends StatelessWidget {
   final String correctAnswer = 'Choice 1';
   String? resultText;
@@ -103,7 +132,7 @@ class Quiz extends StatelessWidget {
   String buto = "Submit";
 
   final int questionIndex;
-  final List questions;
+  final List<dynamic> questions;
   final Function(int) answerQuestion;
   final Function(int) choiceselect;
   final int? choice;
@@ -139,7 +168,7 @@ class Quiz extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ...(questions[questionIndex]['answers']
-                        as List<Map<String, Object>>)
+                        )
                     .sublist(0, 1)
                     .map((answer) {
                   return ChoiceButton(
@@ -153,7 +182,7 @@ class Quiz extends StatelessWidget {
                           : const Color.fromARGB(255, 255, 255, 255));
                 }).toList(),
                 ...(questions[questionIndex]['answers']
-                        as List<Map<String, Object>>)
+                        )
                     .sublist(1, 2)
                     .map((answer) {
                   return ChoiceButton(
@@ -172,7 +201,7 @@ class Quiz extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ...(questions[questionIndex]['answers']
-                        as List<Map<String, Object>>)
+                        )
                     .sublist(2, 3)
                     .map((answer) {
                   return ChoiceButton(
@@ -186,7 +215,7 @@ class Quiz extends StatelessWidget {
                           : const Color.fromARGB(255, 255, 255, 255));
                 }).toList(),
                 ...(questions[questionIndex]['answers']
-                        as List<Map<String, Object>>)
+                        )
                     .sublist(3, 4)
                     .map((answer) {
                   return ChoiceButton(
@@ -218,7 +247,7 @@ class Quiz extends StatelessWidget {
                     ),
                   ElevatedButton(
                     onPressed: () {
-                      Future.delayed(Duration(seconds: 3), () {
+                      Future.delayed(Duration(seconds: 1), () {
                         answerQuestion(questions[questionIndex]['answers']
                             [choice]['score'] as int);
                       });
