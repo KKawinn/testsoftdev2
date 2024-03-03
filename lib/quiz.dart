@@ -11,8 +11,7 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
-  CollectionReference _question = FirebaseFirestore.instance.collection("question");
-  List<Map<String, dynamic>> dataList = [];
+  //CollectionReference _question = FirebaseFirestore.instance.collection("question");
 
   int _questionIndex = 0;
   int _totalScore = 0;
@@ -55,9 +54,7 @@ Future<void> _fetchQuestions() async {
     } catch (error) {
       print('Error fetching questions: $error');
     }
-    for (var question in _questions) {
-        print(question);
-    }
+    
   }
 
 
@@ -67,6 +64,7 @@ Future<void> _fetchQuestions() async {
     _fetchQuestions();
    
   }
+
   Widget build(BuildContext context) {
     return FutureBuilder(future: firebase, builder: (context,snapshot){
       if(snapshot.hasError){
