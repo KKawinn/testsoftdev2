@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'firstpage.dart';
 import 'secon.dart';
 import 'quiz.dart';
+import 'senquiz.dart';
 import 'voic.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -9,13 +10,11 @@ import 'firebase_options.dart';
 void main() {
   runApp(const MyApp());
   WidgetsFlutterBinding.ensureInitialized();
-   
 
-    Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
- );
+  Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -35,7 +34,7 @@ class MyApp extends StatelessWidget {
         '/first': (context) => const Firstpage(),
         '/quiz': (context) => QuizPage(),
         '/voic': (context) => voic(),
-
+        '/sentence': (context) => SenQuiz(),
       },
     );
   }

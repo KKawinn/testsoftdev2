@@ -42,13 +42,19 @@ class _SecondState extends State<Second> {
                   label: const Text("Pic Quiz"),
                 ),
                 FloatingActionButton.extended(
-                  onPressed: (){
+                  onPressed: () {
                     Navigator.pushNamed(context, '/voic');
                   },
                   label: const Text("Listen Quiz"),
                 )
               ],
             ),
+            FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.pushNamed(context, '/sentence');
+              },
+              label: const Text("Sentence Quiz"),
+            )
           ],
         ),
       ),
