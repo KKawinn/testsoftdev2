@@ -11,8 +11,8 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
-  CollectionReference _question =
-      FirebaseFirestore.instance.collection("question");
+  // CollectionReference _question =
+  //     FirebaseFirestore.instance.collection("question");
 
   int _questionIndex = 0;
   int _totalScore = 0;
@@ -168,73 +168,67 @@ class Quiz extends StatelessWidget {
       children: [
         Expanded(
           child: Center(
-            child: Image.asset(questions[questionIndex]['pic'] as String),
-          ),
+              child: Image.asset(
+            questions[questionIndex]['pic'] as String,
+            width: 200,
+            height: 200,
+            fit: BoxFit.cover,
+          )),
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text("รูปภาพที่เห็นนี้คืออะไร"),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ...(questions[questionIndex]['answers'])
-                    .sublist(0, 1)
-                    .map((answer) {
-                  return ChoiceButton(
-                      onSelect: () {
-                        choiceselect(0);
-                        onAnswerSelected(answer['text'] as String);
-                      },
-                      text: (answer['text'] as String),
-                      colo: selectedAnswer == answer['text']
-                          ? const Color.fromARGB(255, 186, 218, 255)
-                          : const Color.fromARGB(255, 255, 255, 255));
-                }).toList(),
-                ...(questions[questionIndex]['answers'])
-                    .sublist(1, 2)
-                    .map((answer) {
-                  return ChoiceButton(
-                      onSelect: () {
-                        choiceselect(1);
-                        onAnswerSelected(answer['text'] as String);
-                      },
-                      text: (answer['text'] as String),
-                      colo: selectedAnswer == answer['text']
-                          ? const Color.fromARGB(255, 186, 218, 255)
-                          : const Color.fromARGB(255, 255, 255, 255));
-                }).toList(),
-              ],
+            SizedBox(
+              height: 15,
             ),
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ...(questions[questionIndex]['answers'])
-                    .sublist(2, 3)
-                    .map((answer) {
-                  return ChoiceButton(
-                      onSelect: () {
-                        choiceselect(2);
-                        onAnswerSelected(answer['text'] as String);
-                      },
-                      text: (answer['text'] as String),
-                      colo: selectedAnswer == answer['text']
-                          ? const Color.fromARGB(255, 186, 218, 255)
-                          : const Color.fromARGB(255, 255, 255, 255));
-                }).toList(),
-                ...(questions[questionIndex]['answers'])
-                    .sublist(3, 4)
-                    .map((answer) {
-                  return ChoiceButton(
-                      onSelect: () {
-                        choiceselect(3);
-                        onAnswerSelected(answer['text'] as String);
-                      },
-                      text: (answer['text'] as String),
-                      colo: selectedAnswer == answer['text']
-                          ? const Color.fromARGB(255, 186, 218, 255)
-                          : const Color.fromARGB(255, 255, 255, 255));
-                }).toList(),
+                for (int i = 0;
+                    i < questions[questionIndex]['answers'].length;
+                    i += 2)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width *
+                            0.3, // กำหนดความกว้างของตัวเลือก
+                        child: ChoiceButton(
+                          onSelect: () {
+                            choiceselect(i);
+                            onAnswerSelected(questions[questionIndex]['answers']
+                                [i]['text'] as String);
+                          },
+                          text: questions[questionIndex]['answers'][i]['text']
+                              as String,
+                          colo: selectedAnswer ==
+                                  questions[questionIndex]['answers'][i]['text']
+                              ? const Color.fromARGB(255, 186, 218, 255)
+                              : const Color.fromARGB(255, 255, 255, 255),
+                        ),
+                      ),
+                      if (i + 1 < questions[questionIndex]['answers'].length)
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width *
+                              0.3, // กำหนดความกว้างของตัวเลือก
+                          child: ChoiceButton(
+                            onSelect: () {
+                              choiceselect(i + 1);
+                              onAnswerSelected(questions[questionIndex]
+                                  ['answers'][i + 1]['text'] as String);
+                            },
+                            text: questions[questionIndex]['answers'][i + 1]
+                                ['text'] as String,
+                            colo: selectedAnswer ==
+                                    questions[questionIndex]['answers'][i + 1]
+                                        ['text']
+                                ? const Color.fromARGB(255, 186, 218, 255)
+                                : const Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        ),
+                    ],
+                  ),
               ],
             ),
           ],
@@ -289,7 +283,7 @@ class Quiz extends StatelessWidget {
 
 class ChoiceButton extends StatelessWidget {
   final String text;
-  final VoidCallback onSelect; // เพิ่มพารามิเตอร์ onSelect แบบ VoidCallback
+  final VoidCallback onSelect;
   final Color colo;
 
   const ChoiceButton(
@@ -300,7 +294,7 @@ class ChoiceButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
-        onPressed: onSelect, // เรียกใช้งานฟังก์ชัน onSelect เมื่อปุ่มถูกกด
+        onPressed: onSelect,
         child: Text(text),
         style: ElevatedButton.styleFrom(backgroundColor: colo),
       ),
