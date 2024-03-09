@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tesgf/voic_sara.dart';
 import 'firstpage.dart';
 import 'secon.dart';
 import 'quiz.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         '/quiz': (context) => QuizPage(),
         '/voic': (context) => voic(),
         '/sentence': (context) => SenQuiz(),
+        '/voic_sara': (context) => voic_sara(),
       },
     );
   }

@@ -7,8 +7,8 @@ class Firstpage extends StatefulWidget {
 }
 
 class _Firstpage extends State<Firstpage> {
-  int num1 = 0 ;
-  int num2 = 0 ;
+  int num1 = 1 ;
+  int num2 = 2 ;
   void _calculate_m() {}
   @override
   Widget build(BuildContext context) {
@@ -27,15 +27,15 @@ class _Firstpage extends State<Firstpage> {
                 children: <Widget>[
                   FloatingActionButton.extended(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/second');
-                      num1 = 1;
+                      Navigator.pushNamed(context, '/second',arguments: num1);
+                    
                     },
                     label: const Text("พยัชนะ"),
                   ),
                   FloatingActionButton.extended(
                     onPressed: (){
-                      Navigator.pushNamed(context, '/second');
-                      num2 = 1 ;
+                      Navigator.pushNamed(context, '/second',arguments: num2);
+                      
                     },
                     label: const Text("สระ"),
                   )
@@ -44,7 +44,9 @@ class _Firstpage extends State<Firstpage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   FloatingActionButton.extended(
-                    onPressed: _calculate_m,
+                    onPressed: (){
+                      Navigator.pushNamed(context, '/sentence');
+                    },
                     label: const Text("ประโยค"),
                   )
                 ])

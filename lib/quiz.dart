@@ -1,8 +1,9 @@
+import 'dart:math';
+import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 
 class QuizPage extends StatefulWidget {
   @override
@@ -11,9 +12,7 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
-  // CollectionReference _question =
-  //     FirebaseFirestore.instance.collection("question");
-
+  // CollectionReference _question = FirebaseFirestore.instance.collection("question");
   int _questionIndex = 0;
   int _totalScore = 0;
   String? selectedAnswer;
@@ -45,10 +44,15 @@ class _QuizPageState extends State<QuizPage> {
     CollectionReference questionsRef = firestore.collection('question');
 
     try {
+      final random = Random();
       QuerySnapshot querySnapshot = await questionsRef.get();
       querySnapshot.docs.forEach((doc) {
         _questions.add((doc.data()));
       });
+      _questions.forEach((question) {
+        question["answers"].shuffle(random);
+      });
+      _questions.shuffle(random);
       setState(() {});
     } catch (error) {
       print('Error fetching questions: $error');
@@ -60,12 +64,12 @@ class _QuizPageState extends State<QuizPage> {
     super.initState();
     _fetchQuestions();
     // _question.add({
-    //   'pic': 'image/bi.png',
+    //   'question': 'กระต่าย',
     //   'answers': [
-    //     {'text': 'จักยาน', 'score': 1},
-    //     {'text': 'regdrg', 'score': 0},
-    //     {'text': 'gdrg', 'score': 0},
-    //     {'text': 'drgr', 'score': 0},
+    //     {'text': 'จักยาน', 'score': 0},
+    //     {'text': 'ไก่', 'score': 0},
+    //     {'text': 'กระต่าย', 'score': 1},
+    //     {'text': 'ตู้', 'score': 0},
     //   ],
     // },);
   }
@@ -150,6 +154,7 @@ class Quiz extends StatelessWidget {
   final String? selectedAnswer;
   final void Function(String) onAnswerSelected;
   final Function(Color) colorc;
+  FlutterTts flutterTts = FlutterTts();
 
   Quiz(
       {required this.questionIndex,
@@ -166,21 +171,18 @@ class Quiz extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(
-          child: Center(
-              child: Image.asset(
-            questions[questionIndex]['pic'] as String,
-            width: 200,
-            height: 200,
-            fit: BoxFit.cover,
-          )),
+        GestureDetector(
+          child: Image.asset(questions[questionIndex]['pic']),
+        ),
+        SizedBox(
+          height: 10,
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text("รูปภาพที่เห็นนี้คืออะไร"),
             SizedBox(
-              height: 15,
+              height: 10,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -283,7 +285,7 @@ class Quiz extends StatelessWidget {
 
 class ChoiceButton extends StatelessWidget {
   final String text;
-  final VoidCallback onSelect;
+  final VoidCallback onSelect; // เพิ่มพารามิเตอร์ onSelect แบบ VoidCallback
   final Color colo;
 
   const ChoiceButton(
@@ -294,7 +296,7 @@ class ChoiceButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
-        onPressed: onSelect,
+        onPressed: onSelect, // เรียกใช้งานฟังก์ชัน onSelect เมื่อปุ่มถูกกด
         child: Text(text),
         style: ElevatedButton.styleFrom(backgroundColor: colo),
       ),
