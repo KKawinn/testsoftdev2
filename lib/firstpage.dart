@@ -37,6 +37,7 @@ class _Firstpage extends State<Firstpage> {
                 SizedBox(
                   width: 120,
                   child: FloatingActionButton.extended(
+                    key: ValueKey('chapage'),
                     onPressed: () {
                       Navigator.pushNamed(context, '/second', arguments: num1);
                     },
