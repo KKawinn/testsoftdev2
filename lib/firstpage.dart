@@ -7,9 +7,9 @@ class Firstpage extends StatefulWidget {
 }
 
 class _Firstpage extends State<Firstpage> {
-  int num1 = 1 ;
-  int num2 = 2 ;
-  int num3 =3 ;
+  int num1 = 1;
+  int num2 = 2;
+  int num3 = 3;
   void _calculate_m() {}
   @override
   Widget build(BuildContext context) {
@@ -28,15 +28,13 @@ class _Firstpage extends State<Firstpage> {
                 children: <Widget>[
                   FloatingActionButton.extended(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/second',arguments: num1);
-                    
+                      Navigator.pushNamed(context, '/second', arguments: num1);
                     },
                     label: const Text("พยัชนะ"),
                   ),
                   FloatingActionButton.extended(
-                    onPressed: (){
-                      Navigator.pushNamed(context, '/second',arguments: num2);
-                      
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/second', arguments: num2);
                     },
                     label: const Text("สระ"),
                   )
@@ -45,10 +43,18 @@ class _Firstpage extends State<Firstpage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   FloatingActionButton.extended(
-                    onPressed: (){
-                      Navigator.pushNamed(context, '/payokpange',arguments: num3);
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/payokpange',
+                          arguments: num3);
                     },
                     label: const Text("ประโยค"),
+                  ),
+                  FloatingActionButton.extended(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/flashcard',
+                          arguments: num2);
+                    },
+                    label: const Text("คำศัพท์"),
                   )
                 ])
           ],

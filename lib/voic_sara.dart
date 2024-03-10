@@ -41,7 +41,8 @@ class _QuizPageState extends State<voic_sara> {
   Future<void> _fetchQuestions() async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-    CollectionReference questionsRef = firestore.collection('voice_question_sara');
+    CollectionReference questionsRef =
+        firestore.collection('voice_question_sara');
 
     try {
       final random = Random();

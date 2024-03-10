@@ -3,6 +3,7 @@ import 'package:tesgf/payokpange.dart';
 import 'package:tesgf/voic_payok.dart';
 import 'package:tesgf/voic_sara.dart';
 import 'firstpage.dart';
+import 'flashcard.dart';
 import 'secon.dart';
 import 'quiz.dart';
 import 'senquiz.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         '/voic_sara': (context) => voic_sara(),
         '/voic_payok': (context) => voic_payok(),
         '/payokpange': (context) => payokpang(),
+        '/flashcard': (context) => FlashcardPage(),
       },
     );
   }
