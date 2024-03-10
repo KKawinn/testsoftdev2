@@ -22,41 +22,63 @@ class _Firstpage extends State<Firstpage> {
             Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [Image.asset("image/p.png")]),
-            Text("เลือกเนื้อหาที่ต้องการเรียน"),
+            Text(
+              "เลือกเนื้อหาที่ต้องการเรียน",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 5, 5, 5),
+                letterSpacing: 1.2,
+              ),
+            ),
             Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  FloatingActionButton.extended(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                SizedBox(
+                  width: 120,
+                  child: FloatingActionButton.extended(
                     onPressed: () {
                       Navigator.pushNamed(context, '/second', arguments: num1);
                     },
-                    label: const Text("พยัชนะ"),
+                    label: const Text("พยัญชนะ"),
                   ),
-                  FloatingActionButton.extended(
+                ),
+                SizedBox(
+                  width: 120,
+                  child: FloatingActionButton.extended(
                     onPressed: () {
                       Navigator.pushNamed(context, '/second', arguments: num2);
                     },
                     label: const Text("สระ"),
-                  )
-                ]),
+                  ),
+                ),
+              ],
+            ),
             Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  FloatingActionButton.extended(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                SizedBox(
+                  width: 120,
+                  child: FloatingActionButton.extended(
                     onPressed: () {
                       Navigator.pushNamed(context, '/payokpange',
                           arguments: num3);
                     },
                     label: const Text("ประโยค"),
                   ),
-                  FloatingActionButton.extended(
+                ),
+                SizedBox(
+                  width: 120,
+                  child: FloatingActionButton.extended(
                     onPressed: () {
                       Navigator.pushNamed(context, '/flashcard',
                           arguments: num2);
                     },
                     label: const Text("คำศัพท์"),
-                  )
-                ])
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
