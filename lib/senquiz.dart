@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:ffi';
+// import 'dart:ffi';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,7 +13,7 @@ class SenQuiz extends StatefulWidget {
 
 class _QuizPageState extends State<SenQuiz> {
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
-  CollectionReference _question = FirebaseFirestore.instance.collection("question");
+   CollectionReference _question = FirebaseFirestore.instance.collection("voice_question_payok");
   String show = "";
   int _questionIndex = 0;
   int _totalScore = 0;
@@ -65,6 +65,7 @@ class _QuizPageState extends State<SenQuiz> {
       _questions.forEach((question) {
         question["correct_order"].shuffle(random);
       });
+      _questions.shuffle(random);
       setState(() {});
     } catch (error) {
       print('Error fetching questions: $error');
@@ -76,13 +77,8 @@ class _QuizPageState extends State<SenQuiz> {
     super.initState();
     _fetchQuestions();
     // _question.add({
-    //   'pic': 'image/bi.png',
-    //   'answers': [
-    //     {'text': 'จักยาน', 'score': 1},
-    //     {'text': 'regdrg', 'score': 0},
-    //     {'text': 'gdrg', 'score': 0},
-    //     {'text': 'drgr', 'score': 0},
-    //   ],
+    //   'pic': 'ฉันไปกินข้าว',
+    //   'correct_order': ['ฉัน','ไป','กิน','ข้าว'],
     // },);
   }
 
@@ -214,8 +210,7 @@ class Quiz extends StatelessWidget {
           child: Center(
               child: Image.network(
             questions[questionIndex]['pic'] as String,
-            width: 200,
-            height: 200,
+            
             fit: BoxFit.cover,
           )),
         ),

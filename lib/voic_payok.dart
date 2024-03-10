@@ -1,27 +1,36 @@
-import 'dart:math';
-import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 import 'dart:async';
+// import 'dart:ffi';
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
-class QuizPage extends StatefulWidget {
+class voic_payok extends StatefulWidget {
   @override
   _QuizPageState createState() => _QuizPageState();
 }
 
-class _QuizPageState extends State<QuizPage> {
+class _QuizPageState extends State<voic_payok> {
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
-   CollectionReference _question = FirebaseFirestore.instance.collection("voice_question_payok");
+  //  CollectionReference _question = FirebaseFirestore.instance.collection("voice_question_payok");
+  String show = "";
   int _questionIndex = 0;
   int _totalScore = 0;
   String? selectedAnswer;
   int choice = 0;
   Color con = Color.fromARGB(255, 69, 39, 160);
   List<dynamic> _questions = [];
+  List<dynamic> sum = [];
+  final random = Random();
+  String ans = "";
+  int k = 0;
 
   void _answerQuestion(int score) {
     setState(() {
+      ans = "";
+      show = "";
+      k = 0;
       _totalScore += score;
       _questionIndex++;
       selectedAnswer = null;
@@ -41,16 +50,20 @@ class _QuizPageState extends State<QuizPage> {
   Future<void> _fetchQuestions() async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-    CollectionReference questionsRef = firestore.collection('question');
+    CollectionReference questionsRef = firestore.collection('voice_question_payok');
 
     try {
-      final random = Random();
       QuerySnapshot querySnapshot = await questionsRef.get();
       querySnapshot.docs.forEach((doc) {
         _questions.add((doc.data()));
       });
+
+      querySnapshot.docs.forEach((doc) {
+        sum.add((doc.data()));
+      });
+
       _questions.forEach((question) {
-        question["answers"].shuffle(random);
+        question["correct_order"].shuffle(random);
       });
       _questions.shuffle(random);
       setState(() {});
@@ -64,13 +77,8 @@ class _QuizPageState extends State<QuizPage> {
     super.initState();
     _fetchQuestions();
     // _question.add({
-    //   'question': 'กระต่าย',
-    //   'answers': [
-    //     {'text': 'จักยาน', 'score': 0},
-    //     {'text': 'ไก่', 'score': 0},
-    //     {'text': 'กระต่าย', 'score': 1},
-    //     {'text': 'ตู้', 'score': 0},
-    //   ],
+    //   'aunwer': 'ฉันไปกินข้าว',
+    //   'correct_order': ['ฉัน','ไป','กิน','ข้าว'],
     // },);
   }
 
@@ -105,8 +113,11 @@ class _QuizPageState extends State<QuizPage> {
               ),
               body: _questionIndex < _questions.length
                   ? Quiz(
+                      ans: ans,
+                      sum: sum,
+                      show: show,
                       questionIndex: _questionIndex,
-                      questions: _questions,
+                      questions: _questions..shuffle,
                       answerQuestion: _answerQuestion,
                       selectedAnswer: selectedAnswer,
                       choice: choice,
@@ -117,7 +128,24 @@ class _QuizPageState extends State<QuizPage> {
                       },
                       choiceselect: (int cha) {
                         setState(() {
+                          if (k == 0) {
+                            sum[cha]["correct_order"].forEach((question) {
+                              ans += question;
+                            });
+                            k = 1;
+                          }
+
                           choice = cha;
+                        });
+                      },
+                      sho: (String cha) {
+                        setState(() {
+                          show += cha;
+                        });
+                      },
+                      reshow: () {
+                        setState(() {
+                          show = "";
                         });
                       },
                       con: con,
@@ -141,21 +169,24 @@ class _QuizPageState extends State<QuizPage> {
 
 // ignore: must_be_immutable
 class Quiz extends StatelessWidget {
-  final String correctAnswer = 'Choice 1';
+  final String quq = 'รูปภาพที่เห็นนี้คืออะไร';
   String? resultText;
   final Color? con;
   String buto = "Submit";
-
+  final String show;
+  final Function(String) sho;
   final int questionIndex;
   final List<dynamic> questions;
   final Function(int) answerQuestion;
   final Function(int) choiceselect;
-  final int? choice;
+  final int choice;
   final String? selectedAnswer;
   final void Function(String) onAnswerSelected;
   final Function(Color) colorc;
+  final Function reshow;
+  final List<dynamic> sum;
+  String ans;
   FlutterTts flutterTts = FlutterTts();
-
   Quiz(
       {required this.questionIndex,
       required this.questions,
@@ -165,22 +196,40 @@ class Quiz extends StatelessWidget {
       required this.choiceselect,
       required this.choice,
       required this.con,
-      required this.colorc});
+      required this.colorc,
+      required this.show,
+      required this.sho,
+      required this.reshow,
+      required this.sum,
+      required this.ans});
+
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         GestureDetector(
-          child: Image.asset(questions[questionIndex]['pic']),
-        ),
-        SizedBox(
-          height: 10,
+          onTap: () {
+            
+            flutterTts.speak(questions[questionIndex]['aunwer']);
+          },
+          child: Image.asset('image/voic.png'),
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("รูปภาพที่เห็นนี้คืออะไร"),
+            Text(quq),
+            SizedBox(
+              height: 8,
+            ),
+            Text(
+              show,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
+              ),
+            ),
             SizedBox(
               height: 10,
             ),
@@ -188,7 +237,7 @@ class Quiz extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 for (int i = 0;
-                    i < questions[questionIndex]['answers'].length;
+                    i < questions[questionIndex]['correct_order'].length;
                     i += 2)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -198,33 +247,36 @@ class Quiz extends StatelessWidget {
                             0.3, // กำหนดความกว้างของตัวเลือก
                         child: ChoiceButton(
                           onSelect: () {
-                            choiceselect(i);
-                            onAnswerSelected(questions[questionIndex]['answers']
-                                [i]['text'] as String);
+                            sho(questions[questionIndex]['correct_order'][i]
+                                as String);
+                            onAnswerSelected(show);
+                            choiceselect(questionIndex);
                           },
-                          text: questions[questionIndex]['answers'][i]['text']
+                          text: questions[questionIndex]['correct_order'][i]
                               as String,
                           colo: selectedAnswer ==
-                                  questions[questionIndex]['answers'][i]['text']
+                                  questions[questionIndex]['correct_order'][i]
                               ? const Color.fromARGB(255, 186, 218, 255)
                               : const Color.fromARGB(255, 255, 255, 255),
                         ),
                       ),
-                      if (i + 1 < questions[questionIndex]['answers'].length)
+                      if (i + 1 <
+                          questions[questionIndex]['correct_order'].length)
                         SizedBox(
                           width: MediaQuery.of(context).size.width *
                               0.3, // กำหนดความกว้างของตัวเลือก
                           child: ChoiceButton(
                             onSelect: () {
-                              choiceselect(i + 1);
-                              onAnswerSelected(questions[questionIndex]
-                                  ['answers'][i + 1]['text'] as String);
+                              sho(questions[questionIndex]['correct_order']
+                                  [i + 1] as String);
+                              onAnswerSelected(show);
+                              choiceselect(questionIndex);
                             },
-                            text: questions[questionIndex]['answers'][i + 1]
-                                ['text'] as String,
+                            text: questions[questionIndex]['correct_order']
+                                [i + 1] as String,
                             colo: selectedAnswer ==
-                                    questions[questionIndex]['answers'][i + 1]
-                                        ['text']
+                                    questions[questionIndex]['correct_order']
+                                        [i + 1]
                                 ? const Color.fromARGB(255, 186, 218, 255)
                                 : const Color.fromARGB(255, 255, 255, 255),
                           ),
@@ -250,14 +302,36 @@ class Quiz extends StatelessWidget {
                     ),
                   ElevatedButton(
                     onPressed: () {
+                      reshow();
+                      for (var question in questions) {
+                        print(question);
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 69, 39, 160)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 8.0),
+                      child: Text(
+                        "เรียงประโยคใหม่",
+                        style: TextStyle(
+                            fontSize: 15.0,
+                            color: Color.fromARGB(255, 255, 255, 255)),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 3.0),
+                  ElevatedButton(
+                    onPressed: () {
                       Future.delayed(Duration(seconds: 1), () {
-                        answerQuestion(questions[questionIndex]['answers']
-                            [choice]['score'] as int);
+                        if (ans as String == show as String) {
+                          answerQuestion(1);
+                        } else {
+                          answerQuestion(0);
+                        }
                       });
 
-                      colorc(1 ==
-                              questions[questionIndex]['answers'][choice]
-                                  ['score'] as int
+                      colorc(ans as String == show as String
                           ? Color.fromARGB(255, 77, 255, 0)
                           : Color.fromARGB(255, 255, 0, 0));
                     },

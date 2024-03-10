@@ -49,6 +49,13 @@ class _SecondState extends State<Second> {
                     else{Navigator.pushNamed(context, '/voic_sara');}
                   },
                   label: const Text("Listen Quiz"),
+                ),
+                FloatingActionButton.extended(
+                  onPressed: () {
+                    if(dolp == 1){Navigator.pushNamed(context, '/voic_payok');}
+                    else{Navigator.pushNamed(context, '/voic_payok');}
+                  },
+                  label: const Text("Listen payok"),
                 )
               ],
             ),

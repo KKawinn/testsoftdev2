@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tesgf/payokpange.dart';
+import 'package:tesgf/voic_payok.dart';
 import 'package:tesgf/voic_sara.dart';
 import 'firstpage.dart';
 import 'secon.dart';
@@ -37,6 +39,8 @@ class MyApp extends StatelessWidget {
         '/voic': (context) => voic(),
         '/sentence': (context) => SenQuiz(),
         '/voic_sara': (context) => voic_sara(),
+        '/voic_payok': (context) => voic_payok(),
+        '/payokpange': (context) => payokpang(),
       },
     );
   }
