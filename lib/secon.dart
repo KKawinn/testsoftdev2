@@ -18,6 +18,7 @@ class _SecondState extends State<Second> {
         title: Text('เลือกวิธีที่ต้องการเรียน'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
+          key: ValueKey('backButton'),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -37,12 +38,14 @@ class _SecondState extends State<Second> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 FloatingActionButton.extended(
+                  key: ValueKey('pic_quiz'),
                   onPressed: () {
                     Navigator.pushNamed(context, '/quiz');
                   },
                   label: const Text("Pic Quiz"),
                 ),
                 FloatingActionButton.extended(
+                  key: ValueKey('voice_quiz'),
                   onPressed: () {
                     if (dolp == 1) {
                       Navigator.pushNamed(context, '/voic');

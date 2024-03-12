@@ -90,6 +90,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back),
+                  key: ValueKey('backButton'),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -208,7 +209,7 @@ class Quiz extends StatelessWidget {
                           width: MediaQuery.of(context).size.width *
                               0.3, // กำหนดความกว้างของตัวเลือก
                           child: ChoiceButton(
-                            choiceIndex: i,
+                            choiceIndex: i + 1,
                             onSelect: () {
                               choiceselect(i + 1);
                               onAnswerSelected(questions[questionIndex]
@@ -294,7 +295,7 @@ class ChoiceButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
-        key: ValueKey('choice_pic${choiceIndex + 1}'),
+        key: ValueKey('choice_pic${choiceIndex}'),
         onPressed: onSelect, // เรียกใช้งานฟังก์ชัน onSelect เมื่อปุ่มถูกกด
         child: Text(text),
         style: ElevatedButton.styleFrom(backgroundColor: colo),

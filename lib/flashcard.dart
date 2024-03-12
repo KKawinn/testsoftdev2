@@ -70,6 +70,13 @@ class _FlashcardPageState extends State<FlashcardPage> {
             return Scaffold(
               appBar: AppBar(
                 title: Text('Flashcards'),
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  key: ValueKey('backButton'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
               ),
               body: GestureDetector(
                 key: ValueKey('showvocap'),
@@ -84,8 +91,8 @@ class _FlashcardPageState extends State<FlashcardPage> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           image: DecorationImage(
-                            image:
-                                AssetImage(_flashcards[_currentIndex]['image']),
+                            image: NetworkImage(
+                                _flashcards[_currentIndex]['image']),
                             fit: BoxFit.cover,
                           ),
                         ),
