@@ -71,6 +71,7 @@ class _Firstpage extends State<Firstpage> {
                 SizedBox(
                   width: 120,
                   child: FloatingActionButton.extended(
+                    key: ValueKey('flashpage'),
                     onPressed: () {
                       Navigator.pushNamed(context, '/flashcard',
                           arguments: num2);

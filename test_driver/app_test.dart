@@ -2,7 +2,7 @@ import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Tic Tac Toe App Test', () {
+  group('Thai up', () {
     FlutterDriver? driver;
 
     setUpAll(() async {
@@ -15,17 +15,15 @@ void main() {
       }
     });
 
-    test('Play the game', () async {
-      await driver!.tap(find.byValueKey('cell_0_0'));
-      await driver!.tap(find.byValueKey('cell_1_1'));
-      await driver!.tap(find.byValueKey('cell_0_1'));
-      await driver!.tap(find.byValueKey('cell_2_2'));
-      expect(await driver!.getText(find.text('Winner: X')), 'Winner: X');
+    test('Flash card', () async {
+      await driver!.tap(find.byValueKey('flashpage'));
+      await driver!.tap(find.byValueKey('showvocap'));
+      await driver!.tap(find.byValueKey('nextflash'));
+      await driver!.tap(find.byValueKey('showvocap'));
+      expect(await driver!.getText(find.text('ส้ม')), 'ส้ม');
     });
 
-    test('Restart the game', () async {
-      await driver!.tap(find.byValueKey('restart_button'));
-      expect(await driver!.getText(find.text('Tic Tac Toe')), 'Tic Tac Toe');
-    });
+  // flutter drive --target=test_driver/app.dart
+
   });
 }
