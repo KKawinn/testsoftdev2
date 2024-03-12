@@ -12,7 +12,8 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
-   CollectionReference _question = FirebaseFirestore.instance.collection("voice_question_payok");
+  CollectionReference _question =
+      FirebaseFirestore.instance.collection("voice_question_payok");
   int _questionIndex = 0;
   int _totalScore = 0;
   String? selectedAnswer;
@@ -63,15 +64,6 @@ class _QuizPageState extends State<QuizPage> {
   void initState() {
     super.initState();
     _fetchQuestions();
-    // _question.add({
-    //   'question': 'กระต่าย',
-    //   'answers': [
-    //     {'text': 'จักยาน', 'score': 0},
-    //     {'text': 'ไก่', 'score': 0},
-    //     {'text': 'กระต่าย', 'score': 1},
-    //     {'text': 'ตู้', 'score': 0},
-    //   ],
-    // },);
   }
 
   Widget build(BuildContext context) {
@@ -197,6 +189,7 @@ class Quiz extends StatelessWidget {
                         width: MediaQuery.of(context).size.width *
                             0.3, // กำหนดความกว้างของตัวเลือก
                         child: ChoiceButton(
+                          choiceIndex: i,
                           onSelect: () {
                             choiceselect(i);
                             onAnswerSelected(questions[questionIndex]['answers']
@@ -215,6 +208,7 @@ class Quiz extends StatelessWidget {
                           width: MediaQuery.of(context).size.width *
                               0.3, // กำหนดความกว้างของตัวเลือก
                           child: ChoiceButton(
+                            choiceIndex: i,
                             onSelect: () {
                               choiceselect(i + 1);
                               onAnswerSelected(questions[questionIndex]
@@ -249,6 +243,7 @@ class Quiz extends StatelessWidget {
                       style: TextStyle(fontSize: 18.0),
                     ),
                   ElevatedButton(
+                    key: ValueKey('submit_picquiz'),
                     onPressed: () {
                       Future.delayed(Duration(seconds: 1), () {
                         answerQuestion(questions[questionIndex]['answers']
@@ -287,15 +282,19 @@ class ChoiceButton extends StatelessWidget {
   final String text;
   final VoidCallback onSelect; // เพิ่มพารามิเตอร์ onSelect แบบ VoidCallback
   final Color colo;
-
+  final int choiceIndex;
   const ChoiceButton(
-      {required this.text, required this.onSelect, required this.colo});
+      {required this.text,
+      required this.onSelect,
+      required this.colo,
+      required this.choiceIndex});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
+        key: ValueKey('choice_pic${choiceIndex + 1}'),
         onPressed: onSelect, // เรียกใช้งานฟังก์ชัน onSelect เมื่อปุ่มถูกกด
         child: Text(text),
         style: ElevatedButton.styleFrom(backgroundColor: colo),

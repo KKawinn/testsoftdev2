@@ -23,7 +23,14 @@ void main() {
       expect(await driver!.getText(find.text('ส้ม')), 'ส้ม');
     });
 
-  // flutter drive --target=test_driver/app.dart
+    test('Pic Quiz', () async {
+      await driver!.tap(find.byValueKey('flashpage'));
+      await driver!.tap(find.byValueKey('showvocap'));
+      await driver!.tap(find.byValueKey('nextflash'));
+      await driver!.tap(find.byValueKey('showvocap'));
+      expect(await driver!.getText(find.text('ส้ม')), 'ส้ม');
+    });
 
+    // flutter drive --target=test_driver/app.dart
   });
 }

@@ -10,7 +10,6 @@ class _SecondState extends State<Second> {
   void _calculate_m() {}
   @override
   Widget build(BuildContext context) {
-
     final dolp = ModalRoute.of(context)?.settings.arguments as int;
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 213, 229, 242),
@@ -45,18 +44,14 @@ class _SecondState extends State<Second> {
                 ),
                 FloatingActionButton.extended(
                   onPressed: () {
-                    if(dolp == 1){Navigator.pushNamed(context, '/voic');}
-                    else{Navigator.pushNamed(context, '/voic_sara');}
+                    if (dolp == 1) {
+                      Navigator.pushNamed(context, '/voic');
+                    } else {
+                      Navigator.pushNamed(context, '/voic_sara');
+                    }
                   },
                   label: const Text("Listen Quiz"),
                 ),
-                FloatingActionButton.extended(
-                  onPressed: () {
-                    if(dolp == 1){Navigator.pushNamed(context, '/voic_payok');}
-                    else{Navigator.pushNamed(context, '/voic_payok');}
-                  },
-                  label: const Text("Listen payok"),
-                )
               ],
             ),
           ],

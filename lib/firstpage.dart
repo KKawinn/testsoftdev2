@@ -37,7 +37,7 @@ class _Firstpage extends State<Firstpage> {
                 SizedBox(
                   width: 120,
                   child: FloatingActionButton.extended(
-                    key: ValueKey('chapage'),
+                    key: ValueKey('cha_second_page'),
                     onPressed: () {
                       Navigator.pushNamed(context, '/second', arguments: num1);
                     },
@@ -47,6 +47,7 @@ class _Firstpage extends State<Firstpage> {
                 SizedBox(
                   width: 120,
                   child: FloatingActionButton.extended(
+                    key: ValueKey('sara_second_page'),
                     onPressed: () {
                       Navigator.pushNamed(context, '/second', arguments: num2);
                     },
@@ -61,6 +62,7 @@ class _Firstpage extends State<Firstpage> {
                 SizedBox(
                   width: 120,
                   child: FloatingActionButton.extended(
+                    key: ValueKey('payok_second_page'),
                     onPressed: () {
                       Navigator.pushNamed(context, '/payokpange',
                           arguments: num3);
