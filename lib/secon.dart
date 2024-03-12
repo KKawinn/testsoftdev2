@@ -39,8 +39,12 @@ class _SecondState extends State<Second> {
               children: <Widget>[
                 FloatingActionButton.extended(
                   key: ValueKey('pic_quiz'),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/quiz');
+                  onPressed: () {if (dolp == 1) {
+                      Navigator.pushNamed(context, '/quiz');
+                    } else {
+                      Navigator.pushNamed(context, '/quiz_sara');
+                    }
+                    
                   },
                   label: const Text("Pic Quiz"),
                 ),

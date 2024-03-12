@@ -5,15 +5,14 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-class QuizPage extends StatefulWidget {
+class Quizsara extends StatefulWidget {
   @override
   _QuizPageState createState() => _QuizPageState();
 }
 
-class _QuizPageState extends State<QuizPage> {
+class _QuizPageState extends State<Quizsara> {
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
-  CollectionReference _question =
-      FirebaseFirestore.instance.collection("voice_question_payok");
+ // CollectionReference _question = FirebaseFirestore.instance.collection("voice_question_payok");
   int _questionIndex = 0;
   int _totalScore = 0;
   String? selectedAnswer;
@@ -42,7 +41,7 @@ class _QuizPageState extends State<QuizPage> {
   Future<void> _fetchQuestions() async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-    CollectionReference questionsRef = firestore.collection('question');
+    CollectionReference questionsRef = firestore.collection('quiz_sara');
 
     try {
       final random = Random();
@@ -90,7 +89,6 @@ class _QuizPageState extends State<QuizPage> {
                 ),
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back),
-                  key: ValueKey('backButton'),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -165,7 +163,8 @@ class Quiz extends StatelessWidget {
     return Column(
       children: [
         GestureDetector(
-          child: Image.network(questions[questionIndex]['pic']),
+          child: Image.network(
+            questions[questionIndex]['pic'] as String),
         ),
         SizedBox(
           height: 10,
@@ -173,7 +172,7 @@ class Quiz extends StatelessWidget {
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("รูปภาพที่เห็นนี้คืออะไร"),
+            Text("รูปภาพที่เห็นใช้สระอะไรเป็นตัวแรก"),
             SizedBox(
               height: 10,
             ),
@@ -209,7 +208,7 @@ class Quiz extends StatelessWidget {
                           width: MediaQuery.of(context).size.width *
                               0.3, // กำหนดความกว้างของตัวเลือก
                           child: ChoiceButton(
-                            choiceIndex: i + 1,
+                            choiceIndex: i,
                             onSelect: () {
                               choiceselect(i + 1);
                               onAnswerSelected(questions[questionIndex]
@@ -295,7 +294,7 @@ class ChoiceButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
-        key: ValueKey('choice_pic${choiceIndex}'),
+        key: ValueKey('choice_pic${choiceIndex + 1}'),
         onPressed: onSelect, // เรียกใช้งานฟังก์ชัน onSelect เมื่อปุ่มถูกกด
         child: Text(text),
         style: ElevatedButton.styleFrom(backgroundColor: colo),

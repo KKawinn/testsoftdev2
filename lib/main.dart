@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tesgf/payokpange.dart';
+import 'package:tesgf/quiz_sara.dart';
 import 'package:tesgf/voic_payok.dart';
 import 'package:tesgf/voic_sara.dart';
 import 'firstpage.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         '/voic_payok': (context) => voic_payok(),
         '/payokpange': (context) => payokpang(),
         '/flashcard': (context) => FlashcardPage(),
+        '/quiz_sara': (context) => Quizsara(),
       },
     );
   }
