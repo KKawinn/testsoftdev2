@@ -50,7 +50,8 @@ class _QuizPageState extends State<voic_payok> {
   Future<void> _fetchQuestions() async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-    CollectionReference questionsRef = firestore.collection('voice_question_payok');
+    CollectionReference questionsRef =
+        firestore.collection('voice_question_payok');
 
     try {
       QuerySnapshot querySnapshot = await questionsRef.get();
@@ -106,6 +107,7 @@ class _QuizPageState extends State<voic_payok> {
                 ),
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back),
+                  key: ValueKey('backButton'),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -203,14 +205,13 @@ class Quiz extends StatelessWidget {
       required this.sum,
       required this.ans});
 
-
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         GestureDetector(
+          key: ValueKey('voice'),
           onTap: () {
-            
             flutterTts.speak(questions[questionIndex]['aunwer']);
           },
           child: Image.asset('image/voic.png'),
@@ -246,6 +247,7 @@ class Quiz extends StatelessWidget {
                         width: MediaQuery.of(context).size.width *
                             0.3, // กำหนดความกว้างของตัวเลือก
                         child: ChoiceButton(
+                          choiceIndex: i,
                           onSelect: () {
                             sho(questions[questionIndex]['correct_order'][i]
                                 as String);
@@ -266,6 +268,7 @@ class Quiz extends StatelessWidget {
                           width: MediaQuery.of(context).size.width *
                               0.3, // กำหนดความกว้างของตัวเลือก
                           child: ChoiceButton(
+                            choiceIndex: i + 1,
                             onSelect: () {
                               sho(questions[questionIndex]['correct_order']
                                   [i + 1] as String);
@@ -301,6 +304,7 @@ class Quiz extends StatelessWidget {
                       style: TextStyle(fontSize: 18.0),
                     ),
                   ElevatedButton(
+                    key: ValueKey('resort'),
                     onPressed: () {
                       reshow();
                       for (var question in questions) {
@@ -322,6 +326,7 @@ class Quiz extends StatelessWidget {
                   ),
                   SizedBox(height: 3.0),
                   ElevatedButton(
+                    key: ValueKey('submit'),
                     onPressed: () {
                       Future.delayed(Duration(seconds: 1), () {
                         if (ans as String == show as String) {
@@ -361,15 +366,19 @@ class ChoiceButton extends StatelessWidget {
   final String text;
   final VoidCallback onSelect; // เพิ่มพารามิเตอร์ onSelect แบบ VoidCallback
   final Color colo;
-
+  final int choiceIndex;
   const ChoiceButton(
-      {required this.text, required this.onSelect, required this.colo});
+      {required this.text,
+      required this.onSelect,
+      required this.colo,
+      required this.choiceIndex});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
+        key: ValueKey('choice_sortsen${choiceIndex}'),
         onPressed: onSelect, // เรียกใช้งานฟังก์ชัน onSelect เมื่อปุ่มถูกกด
         child: Text(text),
         style: ElevatedButton.styleFrom(backgroundColor: colo),
@@ -400,6 +409,7 @@ class Result extends StatelessWidget {
             style: TextStyle(fontSize: 18),
           ),
           ElevatedButton(
+            key: ValueKey('restartquiz'),
             onPressed: () => restartQuiz(),
             child: Text('Restart Quiz'),
           ),

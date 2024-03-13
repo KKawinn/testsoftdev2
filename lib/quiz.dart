@@ -12,8 +12,8 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
-  CollectionReference _question =
-      FirebaseFirestore.instance.collection("voice_question_payok");
+  // CollectionReference _question =
+  //     FirebaseFirestore.instance.collection("voice_question_payok");
   int _questionIndex = 0;
   int _totalScore = 0;
   String? selectedAnswer;
@@ -326,6 +326,7 @@ class Result extends StatelessWidget {
             style: TextStyle(fontSize: 18),
           ),
           ElevatedButton(
+            key: ValueKey('restartquiz'),
             onPressed: () => restartQuiz(),
             child: Text('Restart Quiz'),
           ),

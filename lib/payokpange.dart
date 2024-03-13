@@ -7,9 +7,9 @@ class payokpang extends StatefulWidget {
 }
 
 class _Firstpage extends State<payokpang> {
-  int num1 = 1 ;
-  int num2 = 2 ;
-  int num3 =3 ;
+  int num1 = 1;
+  int num2 = 2;
+  int num3 = 3;
   void _calculate_m() {}
   @override
   Widget build(BuildContext context) {
@@ -20,6 +20,7 @@ class _Firstpage extends State<payokpang> {
         title: Text('เลือกวิธีที่ต้องการเรียน'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
+          key: ValueKey('backButton'),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -37,16 +38,18 @@ class _Firstpage extends State<payokpang> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   FloatingActionButton.extended(
+                    key: ValueKey('sortsen'),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/sentence',arguments: num1);
-                    
+                      Navigator.pushNamed(context, '/sentence',
+                          arguments: num1);
                     },
                     label: const Text("เรียงประโยค"),
                   ),
                   FloatingActionButton.extended(
-                    onPressed: (){
-                      Navigator.pushNamed(context, '/voic_payok',arguments: num2);
-                      
+                    key: ValueKey('voicesen'),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/voic_payok',
+                          arguments: num2);
                     },
                     label: const Text("ฟังประโยค"),
                   )

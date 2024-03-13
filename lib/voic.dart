@@ -98,6 +98,7 @@ class _QuizPageState extends State<voic> {
                 ),
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back),
+                  key: ValueKey('backButton'),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -172,6 +173,7 @@ class Quiz extends StatelessWidget {
     return Column(
       children: [
         GestureDetector(
+          key: ValueKey('listen'),
           onTap: () {
             flutterTts.speak(questions[questionIndex]['question']);
           },
@@ -200,6 +202,7 @@ class Quiz extends StatelessWidget {
                         width: MediaQuery.of(context).size.width *
                             0.3, // กำหนดความกว้างของตัวเลือก
                         child: ChoiceButton(
+                          choiceIndex: i,
                           onSelect: () {
                             choiceselect(i);
                             onAnswerSelected(questions[questionIndex]['answers']
@@ -218,6 +221,7 @@ class Quiz extends StatelessWidget {
                           width: MediaQuery.of(context).size.width *
                               0.3, // กำหนดความกว้างของตัวเลือก
                           child: ChoiceButton(
+                            choiceIndex: i + 1,
                             onSelect: () {
                               choiceselect(i + 1);
                               onAnswerSelected(questions[questionIndex]
@@ -252,6 +256,7 @@ class Quiz extends StatelessWidget {
                       style: TextStyle(fontSize: 18.0),
                     ),
                   ElevatedButton(
+                    key: ValueKey('submit_voicquiz'),
                     onPressed: () {
                       Future.delayed(Duration(seconds: 1), () {
                         answerQuestion(questions[questionIndex]['answers']
@@ -290,15 +295,19 @@ class ChoiceButton extends StatelessWidget {
   final String text;
   final VoidCallback onSelect; // เพิ่มพารามิเตอร์ onSelect แบบ VoidCallback
   final Color colo;
-
+  final int choiceIndex;
   const ChoiceButton(
-      {required this.text, required this.onSelect, required this.colo});
+      {required this.text,
+      required this.onSelect,
+      required this.colo,
+      required this.choiceIndex});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
+        key: ValueKey('choice_voic${choiceIndex}'),
         onPressed: onSelect, // เรียกใช้งานฟังก์ชัน onSelect เมื่อปุ่มถูกกด
         child: Text(text),
         style: ElevatedButton.styleFrom(backgroundColor: colo),
@@ -329,6 +338,7 @@ class Result extends StatelessWidget {
             style: TextStyle(fontSize: 18),
           ),
           ElevatedButton(
+            key: ValueKey('restartquiz'),
             onPressed: () => restartQuiz(),
             child: Text('Restart Quiz'),
           ),
