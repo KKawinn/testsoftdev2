@@ -176,7 +176,11 @@ class Quiz extends StatelessWidget {
           onTap: () {
             flutterTts.speak(questions[questionIndex]['question']);
           },
-          child: Image.asset('image/voic.png'),
+          child: Image.asset(
+            'image/voic.png',
+            width: 450,
+            height: 450,
+          ),
         ),
         SizedBox(
           height: 10,
