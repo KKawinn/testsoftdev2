@@ -93,7 +93,7 @@ class _FlashcardPageState extends State<FlashcardPage> {
                           image: DecorationImage(
                             image: NetworkImage(
                                 _flashcards[_currentIndex]['image']),
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),
