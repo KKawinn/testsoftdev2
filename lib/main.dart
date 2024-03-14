@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tesgf/aboutpage.dart';
 import 'package:tesgf/payokpange.dart';
 import 'package:tesgf/quiz_sara.dart';
 import 'package:tesgf/voic_payok.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
       ),
       home: LoginPage(),
       routes: {
+        '/aboutpage': (context) => const Aboutpage(),
         '/login': (context) => LoginPage(),
         '/second': (context) => const Second(),
         '/first': (context) => const Firstpage(),

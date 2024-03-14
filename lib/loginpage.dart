@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
     if (_IDController.text == "test" 
      && _passwordController.text == "123")
      {
-      Navigator.pushNamed(context, '/flashcard');
+      Navigator.pushNamed(context, '/first');
     }else{
 Dialog();
     }
@@ -80,6 +80,7 @@ Dialog();
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextField(
+              key: ValueKey('ID'),
               controller: _IDController,
               decoration: InputDecoration(
                 labelText: 'ID',
@@ -87,6 +88,7 @@ Dialog();
             ),
             SizedBox(height: 12.0),
             TextField(
+              key: ValueKey('Pass'),
               controller: _passwordController,
               decoration: InputDecoration(
                 labelText: 'Password',
@@ -100,7 +102,15 @@ Dialog();
                     onPressed: checkpass,
                     child: Text('Login'),
                   ),
+            ElevatedButton(
+            
+            onPressed: (){
+              Navigator.pushNamed(context, '/aboutpage');
+            },
+            child: Text('About  Pages'),
+          ),    
           ],
+          
         ),
       ),
     );
