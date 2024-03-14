@@ -12,7 +12,7 @@ class Quizsara extends StatefulWidget {
 
 class _QuizPageState extends State<Quizsara> {
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
- // CollectionReference _question = FirebaseFirestore.instance.collection("voice_question_payok");
+  // CollectionReference _question = FirebaseFirestore.instance.collection("voice_question_payok");
   int _questionIndex = 0;
   int _totalScore = 0;
   String? selectedAnswer;
@@ -162,12 +162,19 @@ class Quiz extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(
+          height: 30,
+        ),
         GestureDetector(
           child: Image.network(
-            questions[questionIndex]['pic'] as String),
+            questions[questionIndex]['pic'] as String,
+            width: 400,
+            height: 400,
+            fit: BoxFit.contain,
+          ),
         ),
         SizedBox(
-          height: 10,
+          height: 30,
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

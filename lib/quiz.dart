@@ -165,7 +165,12 @@ class Quiz extends StatelessWidget {
     return Column(
       children: [
         GestureDetector(
-          child: Image.network(questions[questionIndex]['pic']),
+          child: Image.network(
+            questions[questionIndex]['pic'],
+            width: 400,
+            height: 400,
+            fit: BoxFit.contain,
+          ),
         ),
         SizedBox(
           height: 10,

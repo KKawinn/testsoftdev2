@@ -207,12 +207,20 @@ class Quiz extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(
+          height: 30,
+        ),
         Expanded(
           child: Center(
               child: Image.network(
             questions[questionIndex]['pic'] as String,
+            width: 350,
+            height: 350,
             fit: BoxFit.cover,
           )),
+        ),
+        SizedBox(
+          height: 30,
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -78,7 +78,7 @@ void main() {
       await driver!.tap(find.byValueKey('payok_second_page'));
       await driver!.tap(find.byValueKey('sortsen'));
       for (int i = 0; i < 2; i += 1) {
-        for (int i = 0; i < 3; i += 1) {
+        for (int i = 0; i < 8; i += 1) {
           //จำนวนข้อเด้อ
           await driver!.tap(find.byValueKey('choice_sortsen0'));
           await driver!.tap(find.byValueKey('resort'));
