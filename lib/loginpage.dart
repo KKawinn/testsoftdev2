@@ -99,6 +99,7 @@ Dialog();
             _isLoading
                 ? CircularProgressIndicator()
                 : ElevatedButton(
+                  key: ValueKey('Login'),
                     onPressed: checkpass,
                     child: Text('Login'),
                   ),

@@ -15,14 +15,26 @@ void main() {
       }
     });
 
-    test('login suscess', () async {
+    test('login successful', () async {
     
       await driver!.tap(find.byValueKey('ID'));
       await driver!.enterText('test');
       await driver!.tap(find.byValueKey('Pass'));
       await driver!.enterText('123');
+      await driver!.tap(find.byValueKey('Login'));
       expect(await driver!.getText(find.text('เลือกเนื้อหาที่ต้องการเรียน')),
           'เลือกเนื้อหาที่ต้องการเรียน');
+    },timeout: Timeout(Duration(seconds: 60)));
+    
+    test('login unsuccessful', () async {
+    
+      await driver!.tap(find.byValueKey('ID'));
+      await driver!.enterText('test11');
+      await driver!.tap(find.byValueKey('Pass'));
+      await driver!.enterText('123');
+      await driver!.tap(find.byValueKey('Login'));
+      expect(await driver!.getText(find.text('please register first')),
+          'please register first');
     },timeout: Timeout(Duration(seconds: 60)));
 
     // test('Flash card', () async {
