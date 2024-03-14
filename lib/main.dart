@@ -5,6 +5,7 @@ import 'package:tesgf/voic_payok.dart';
 import 'package:tesgf/voic_sara.dart';
 import 'firstpage.dart';
 import 'flashcard.dart';
+import 'loginpage.dart';
 import 'secon.dart';
 import 'quiz.dart';
 import 'senquiz.dart';
@@ -33,8 +34,9 @@ class MyApp extends StatelessWidget {
             ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 130, 208, 242)),
         useMaterial3: true,
       ),
-      home: const Firstpage(),
+      home: LoginPage(),
       routes: {
+        '/login': (context) => LoginPage(),
         '/second': (context) => const Second(),
         '/first': (context) => const Firstpage(),
         '/quiz': (context) => QuizPage(),
